@@ -38,7 +38,8 @@ Graph newGraph (int noNodes) {
     return new;
 }
 
-// Inserts an edge into the relevant adjacency list - edges not sorted
+// Inserts an edge into the relevant adjacency list
+// Note: the commented out sections result in sorted adjacency lists (ascending)
 void  insertEdge (Graph g, Vertex src, Vertex dest, int weight) {
     assert (validV (g, src) && validV (g, dest));
     
@@ -47,11 +48,23 @@ void  insertEdge (Graph g, Vertex src, Vertex dest, int weight) {
         g->edges[src] = new;
     else {
         AdjList curr = g->edges[src];
+        /*if (dest < curr->w) { // If new edge should be first
+            g->edges[src] = new;
+            new->next = curr;
+            g->nE++;
+            return;
+        }*/
         while (curr->next != NULL) {
             if (curr->w == dest) { //Node already in graph
                 free (new);
                 return;
             }
+            /*if (dest < curr->next->w) {
+                new->next = curr->next;
+                curr->next = new;
+                g->nE++;
+                return;
+            }*/
             curr = curr->next;
         }
         curr->next = new;
