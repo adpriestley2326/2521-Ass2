@@ -126,8 +126,6 @@ void showPQ(PQ queue) {
 }
 
 void updatePQ(PQ queue, ItemPQ node) {
-	PQNode curr = queue->head;
-	
 	int found = deleteNode(queue,node.key);
 	if (found == 1) {
 		addPQ(queue,node);
@@ -154,7 +152,7 @@ static int deleteNode (PQ queue, int key) {
 
 	while (curr != NULL) {
 		if (curr->data.key == key) {
-			prev = curr->next;
+			prev->next = curr->next;
 			free(curr);
 			queue->nitems--;
 			return 1;
