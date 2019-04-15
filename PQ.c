@@ -125,6 +125,7 @@ void showPQ(PQ queue) {
 	}
 }
 
+//Deletes original node and then inserts updated item into queue 
 void updatePQ(PQ queue, ItemPQ node) {
 	int found = deleteNode(queue,node.key);
 	if (found == 1) {
@@ -134,6 +135,7 @@ void updatePQ(PQ queue, ItemPQ node) {
 	return;
 }
 
+//Delete an item in the queue based on its key value
 static int deleteNode (PQ queue, int key) {
 	if (queue->nitems == 0) {
 		return 0;
