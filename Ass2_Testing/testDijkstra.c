@@ -53,43 +53,22 @@ Graph readGraph(char* file) {
 	return g;
 }
 
-/*
-void displayShortestPathsStruct(ShortestPaths sps){
-	int i = 0;
-	printf("Node %d\n",sps.src);
-	printf("  Distance\n");
-	for (i = 0; i < sps.noNodes; i++) {
-			if(i == sps.src)
-	    	printf("    %d : X\n",i);
-			else
-				printf("    %d : %d\n",i,sps.dist[i]);
-	}
-	printf("  Preds\n");
-	for (i = 0; i < sps.noNodes; i++) {
-		printf("    %d : ",i);
-		PredNode* curr = sps.pred[i];
-		while(curr!=NULL) {
-			printf("[%d]->",curr->v);
-			curr = curr->next;
-		}
-		printf("NULL\n");
-	}
-}
-*/
-
 int main(int argc, char* argv[]){
-	printf("Test\n");
 	if(argc < 2) {
 		printf("Usage: ./testDijkstra [file]\n");
 		return EXIT_FAILURE;
 	}
   Graph g = readGraph(argv[1]);
   int i;
-
+  
+  //printf("Graph has %d vertices\n", numVerticies(g));
+  
   for(i=0; i<numVerticies(g); i++) {
-    ShortestPaths paths = dijkstra(g,i);
-    showShortestPaths(paths);
-    freeShortestPaths(paths);
+	ShortestPaths paths = dijkstra(g,i);
+	showShortestPaths(paths);
+	freeShortestPaths(paths);
   }
-
+  //printf("Freed things in paths\n");
+  //freeGraph(g);
+  return 0;
 }

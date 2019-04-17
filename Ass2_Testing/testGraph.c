@@ -18,11 +18,11 @@ void check_outIncident(Graph g);
 void printSortedAdjList(AdjList list){
 
     Tree t = newTree();
-    while(list != NULL) {
+	while(list != NULL) {
         t = TreeInsert(t, list->w);
 		list = list->next;
 	}
-	printTree(t);
+    printTree(t);
     freeTree(t);
 }
 

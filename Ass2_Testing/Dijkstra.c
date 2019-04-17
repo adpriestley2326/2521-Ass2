@@ -13,7 +13,7 @@ static ItemPQ newItemPQ(int a, int b);
 static ShortestPaths init_shortest_path(Graph g,Vertex v);
 static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ queue);
 static bool is_existing_pred(ShortestPaths data, Vertex v, Vertex alt);
-//static void insert_in_order(PredNode *new, ShortestPaths data, Vertex dest);
+static void insert_in_order(PredNode *new, ShortestPaths data, Vertex dest);
 
 
 static ItemPQ newItemPQ(int a, int b){
@@ -64,7 +64,6 @@ ShortestPaths dijkstra(Graph g, Vertex v) {
 	}
 	updatePQ(queue,newItemPQ(v,0));
 	
-	printf("Entering Main loop for Dijikstra\n");
 	//Main loop for dijkstra's algorithm
 	while (!PQEmpty(queue)) {
 		//Find vertex with min distance to source which has not been seen already

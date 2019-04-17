@@ -8,7 +8,6 @@ ItemPQ newItemPQ(int a, int b){
   ItemPQ *p = malloc(sizeof(struct ItemPQ)) ;
   p->key = a;
   p->value = b;
-  
   free(p);
   return *p;
 }
@@ -27,7 +26,7 @@ int main(){
   addPQ(pq,newItemPQ(4,4));
   printf("addPQ: {5,3}\n");  
   addPQ(pq,newItemPQ(5,3));
-  
+
   ItemPQ v; 
   for(int i=0; i<5; i++){  
       v = dequeuePQ(pq);
