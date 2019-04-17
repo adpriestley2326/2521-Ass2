@@ -53,6 +53,7 @@ Graph readGraph(char* file) {
 	return g;
 }
 
+/*
 void displayShortestPathsStruct(ShortestPaths sps){
 	int i = 0;
 	printf("Node %d\n",sps.src);
@@ -74,17 +75,21 @@ void displayShortestPathsStruct(ShortestPaths sps){
 		printf("NULL\n");
 	}
 }
+*/
 
 int main(int argc, char* argv[]){
+	printf("Test\n");
 	if(argc < 2) {
 		printf("Usage: ./testDijkstra [file]\n");
 		return EXIT_FAILURE;
 	}
   Graph g = readGraph(argv[1]);
   int i;
+
   for(i=0; i<numVerticies(g); i++) {
     ShortestPaths paths = dijkstra(g,i);
-    displayShortestPathsStruct(paths);
+    showShortestPaths(paths);
     freeShortestPaths(paths);
   }
+
 }

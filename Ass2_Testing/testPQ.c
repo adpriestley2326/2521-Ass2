@@ -9,6 +9,7 @@ ItemPQ newItemPQ(int a, int b){
   p->key = a;
   p->value = b;
   
+  free(p);
   return *p;
 }
 
@@ -49,6 +50,6 @@ int main(){
   }  
   
   printf("\n");
-  
+  freePQ(pq);
   return EXIT_SUCCESS;
 }
