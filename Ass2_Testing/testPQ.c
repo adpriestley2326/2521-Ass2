@@ -8,7 +8,12 @@ ItemPQ newItemPQ(int a, int b){
   ItemPQ *p = malloc(sizeof(struct ItemPQ)) ;
   p->key = a;
   p->value = b;
-  free(p);
+  
+
+  //free(p);
+  //printf("Key is %d\n",p->key);
+  //printf("Key is %d\n",p->value);
+
   return *p;
 }
 

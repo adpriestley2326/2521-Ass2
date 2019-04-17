@@ -103,6 +103,8 @@ ItemPQ dequeuePQ(PQ queue) {
 
 	PQNode temp = queue->head;
 	ItemPQ result = queue->head->data;
+	//printf("Data is %d\n",result.key);
+	//printf("Data is %d\n",result.value);
 
 	queue->head = queue->head->next;
 	queue->nitems--;

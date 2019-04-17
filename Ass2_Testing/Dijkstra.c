@@ -13,7 +13,7 @@ static ItemPQ newItemPQ(int a, int b);
 static ShortestPaths init_shortest_path(Graph g,Vertex v);
 static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ queue);
 static bool is_existing_pred(ShortestPaths data, Vertex v, Vertex alt);
-static void insert_in_order(PredNode *new, ShortestPaths data, Vertex dest);
+//static void insert_in_order(PredNode *new, ShortestPaths data, Vertex dest);
 
 
 static ItemPQ newItemPQ(int a, int b){
@@ -21,7 +21,7 @@ static ItemPQ newItemPQ(int a, int b){
   p->key = a;
   p->value = b;
   
-  free(p);
+  //free(p);
   return *p;
 }
 
