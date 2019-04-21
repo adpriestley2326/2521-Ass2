@@ -73,13 +73,7 @@ ShortestPaths dijkstra(Graph g, Vertex v) {
 		AdjList adj_nodes = outIncident(g,next_node.key);
 		AdjList dest = adj_nodes;
 		while (dest != NULL) {
-			AdjList nodes_in = inIncident(g,dest->w);
-			AdjList alt = nodes_in;
-			while (alt != NULL) {
-				relax(alt->w,dest->w,alt->weight,data,queue);
-				alt = alt->next;
-			}
-			free(nodes_in);	
+			relax(next_node.key,dest->w,dest->weight,data,queue);	
 			dest = dest->next;
 		}
 		//free(adj_nodes);

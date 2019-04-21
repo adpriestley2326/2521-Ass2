@@ -13,7 +13,7 @@ static ItemPQ newItemPQ(int a, int b);
 static ShortestPaths init_shortest_path(Graph g,Vertex v);
 static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ queue);
 static bool is_existing_pred(ShortestPaths data, Vertex v, Vertex alt);
-static void insert_in_order(PredNode *new, ShortestPaths data, Vertex dest);
+//static void insert_in_order(PredNode *new, ShortestPaths data, Vertex dest);
 
 
 static ItemPQ newItemPQ(int a, int b){
@@ -73,16 +73,9 @@ ShortestPaths dijkstra(Graph g, Vertex v) {
 		AdjList adj_nodes = outIncident(g,next_node.key);
 		AdjList dest = adj_nodes;
 		while (dest != NULL) {
-			AdjList nodes_in = inIncident(g,dest->w);
-			AdjList alt = nodes_in;
-			while (alt != NULL) {
-				relax(alt->w,dest->w,alt->weight,data,queue);
-				alt = alt->next;
-			}
-			free(nodes_in);	
+			relax(next_node.key,dest->w,dest->weight,data,queue);	
 			dest = dest->next;
 		}
-		//free(adj_nodes);
 	}
 
 
