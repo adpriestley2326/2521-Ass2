@@ -12,7 +12,7 @@ typedef PredNode *PredNode_pointer;
 static ItemPQ newItemPQ(int a, int b);
 static ShortestPaths init_shortest_path(Graph g,Vertex v);
 static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ queue);
-static bool is_existing_pred(ShortestPaths data, Vertex v, Vertex alt);
+//static bool is_existing_pred(ShortestPaths data, Vertex v, Vertex alt);
 //static void insert_in_order(PredNode *new, ShortestPaths data, Vertex dest);
 
 
@@ -113,8 +113,7 @@ static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ qu
 	//Case where there is an alternative path of the same minimal length to a node 
 	//Note that there is an additional condition which stops multiple instances
 	//of the same predecessor node
-	else if (data.dist[dest] == data.dist[alt] + weight && 
-		!is_existing_pred(data,dest,alt)) {
+	else if (data.dist[dest] == data.dist[alt] + weight) {
 		
 		PredNode *new_node = malloc(sizeof(*new_node));
 		new_node->v= alt;
@@ -158,7 +157,8 @@ static void insert_in_order(PredNode *new, ShortestPaths data, Vertex dest) {
 }
 */
 
-//Function to check if the pred node already exists
+//Function to check if the pred node already exists 
+/*
 static bool is_existing_pred(ShortestPaths data, Vertex v, Vertex alt){
 	PredNode *curr = data.pred[v];
 	while(curr != NULL) {
@@ -169,6 +169,7 @@ static bool is_existing_pred(ShortestPaths data, Vertex v, Vertex alt){
 	}
 	return false;
 }
+*/
 
 
 //Copied from the Test Example(Does it well enough)
