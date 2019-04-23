@@ -55,6 +55,7 @@ int main(int argc, char* argv[]){
 	printf("\n\n");
 	
 	//graphVis(g, DEFAULT);
+	freeGraph(g);
 }
 
 void check_removeEdge_adjacent(Graph g) {
@@ -103,5 +104,10 @@ void check_inIncident(Graph g) {
 		AdjList l1 = inIncident(g,i);
 		printSortedAdjList( l1 );
 		printf("\n");
+		while(l1 != NULL) {
+			AdjList next = l1->next;
+			free(l1);
+			l1 = next;
+		}
 	}
 }
