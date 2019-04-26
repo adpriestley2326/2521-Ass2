@@ -5,16 +5,17 @@
 
 ItemPQ newItemPQ(int a, int b){
 
-  ItemPQ *p = malloc(sizeof(struct ItemPQ)) ;
-  p->key = a;
-  p->value = b;
+  //ItemPQ *p = malloc(sizeof(struct ItemPQ)) ;
+  struct ItemPQ p;
+  p.key = a;
+  p.value = b;
   
 
   //free(p);
   //printf("Key is %d\n",p->key);
   //printf("Key is %d\n",p->value);
 
-  return *p;
+  return p;
 }
 
 
@@ -36,6 +37,7 @@ int main(){
   for(int i=0; i<5; i++){  
       v = dequeuePQ(pq);
       printf("Dequeued: {%d,%d}\n",v.key,v.value);
+      //free(&v);
   }
 
   printf("addPQ: {2,12}\n");  
@@ -51,6 +53,7 @@ int main(){
   for(int i=0; i<3; i++){  
       v = dequeuePQ(pq);
       printf("Dequeued: {%d,%d}\n",v.key,v.value);
+      //free(&v);
   }  
   
   printf("\n");

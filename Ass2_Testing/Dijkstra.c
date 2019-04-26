@@ -17,12 +17,13 @@ static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ qu
 
 
 static ItemPQ newItemPQ(int a, int b){
-  ItemPQ *p = malloc(sizeof(struct ItemPQ)) ;
-  p->key = a;
-  p->value = b;
+  //ItemPQ *p = malloc(sizeof(struct ItemPQ)) ;
+  struct ItemPQ p; 
+  p.key = a;
+  p.value = b;
   
   //free(p);
-  return *p;
+  return p;
 }
 
 
@@ -76,7 +77,6 @@ ShortestPaths dijkstra(Graph g, Vertex v) {
 			relax(next_node.key,dest->w,dest->weight,data,queue);	
 			dest = dest->next;
 		}
-		//free(adj_nodes);
 	}
 
 
@@ -114,7 +114,7 @@ static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ qu
 	//Case where there is an alternative path of the same minimal length to a node 
 	//Note that there is an additional condition which stops multiple instances
 	//of the same predecessor node
-	else if (data.dist[dest] == data.dist[alt]) {
+	else if (data.dist[dest] == data.dist[alt] + weight) {
 		
 		PredNode *new_node = malloc(sizeof(*new_node));
 		new_node->v= alt;
@@ -129,48 +129,6 @@ static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ qu
 	}
 	return;
 }
-
-
-/*This function inserts nodes in the pred list based on descending? order
-static void insert_in_order(PredNode *new, ShortestPaths data, Vertex dest) {
-	PredNode *curr = data.pred[dest];
-
-	if (new->v > curr->v) {
-		PredNode *temp = curr;
-		data.pred[dest] = new;
-		new->next = temp;
-		return;
-	} 
-	
-	PredNode *prev = curr;
-	curr =curr->next;
-	while (curr!= NULL) {
-		if (new->v < curr->v) {
-			prev->next = new;
-			new->next = curr;
-			return;
-		}
-		prev = curr;
-		curr = curr->next;
-	}
-	prev->next = new;
-	return;
-}
-*/
-
-//Function to check if the pred node already exists
-/*
-static bool is_existing_pred(ShortestPaths data, Vertex v, Vertex alt){
-	PredNode *curr = data.pred[v];
-	while(curr != NULL) {
-		if (curr->v == alt) {
-			return true;
-		}
-		curr = curr->next;
-	}
-	return false;
-}
-*/
 
 
 //Copied from the Test Example(Does it well enough)
