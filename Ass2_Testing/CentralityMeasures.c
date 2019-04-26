@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <assert.h>
 
 #include "CentralityMeasures.h"
 #include "Dijkstra.h"
@@ -16,9 +17,10 @@ static double AdjListDegree (AdjList l) {
 } 
 
 NodeValues outDegreeCentrality(Graph g) {
+    printf ("Finding outDegree Centrality\n");
     NodeValues outD;
     outD.noNodes = numVerticies (g);
-    printf ("n vertices in graph: %d\n", outD.noNodes);
+    //printf ("n vertices in graph: %d\n", outD.noNodes);
     outD.values = malloc (outD.noNodes * sizeof (double));
     AdjList outConns = NULL;
     for (int i = 0; i < outD.noNodes; i++) {
@@ -29,22 +31,27 @@ NodeValues outDegreeCentrality(Graph g) {
 }
 
 NodeValues inDegreeCentrality(Graph g) {
+    printf ("Finding inDegree Centrality\n");
     NodeValues inD;
     inD.noNodes = numVerticies (g);
     printf ("n vertices in graph: %d\n", inD.noNodes);
     inD.values = malloc (inD.noNodes * sizeof (double));
     AdjList inConns = NULL;
+    //printf ("Centrality found for nodes: ");
     for (int i = 0; i < inD.noNodes; i++) {
         inConns = inIncident (g, i);
         inD.values[i] = AdjListDegree (inConns);
+        //printf ("%d ", i);
     }
+    //printf ("InDegree Centrality found\n");
     return inD;
 }
 
 NodeValues degreeCentrality(Graph g) { // for undirected graph
+    printf ("Finding degree Centrality\n");
     NodeValues degrees;
     degrees.noNodes = numVerticies (g);
-    printf ("n vertices in graph: %d\n", degrees.noNodes);
+    //printf ("n vertices in graph: %d\n", degrees.noNodes);
     degrees.values = malloc (degrees.noNodes * sizeof (double));
     AdjList outConns, inConns;
     outConns = inConns = NULL;
@@ -57,10 +64,11 @@ NodeValues degreeCentrality(Graph g) { // for undirected graph
 }
 
 NodeValues closenessCentrality(Graph g) {
-    double N = (double) numVerticies (g); // number of nodes in Graph
+    //printf ("Finding closeness Centrality\n");
     NodeValues out;
-    out.noNodes = N;
-    printf ("n vertices in graph: %d\n", out.noNodes);
+    out.noNodes = numVerticies (g); // number of nodes in Graph
+    double N = (double) out.noNodes; 
+    //printf ("n vertices in graph: %d\n", out.noNodes);
     out.values = malloc (out.noNodes * sizeof (double));
     
     double n = 0;  // number of reachable nodes from u (including u)
@@ -100,9 +108,9 @@ static int nPathsThrough (Graph g, Vertex s, Vertex t, Vertex v) {
 }
 
 NodeValues betweennessCentrality (Graph g) {
+    //printf ("Finding betweenness centrality\n");
     NodeValues out;
     out.noNodes = numVerticies (g);
-    printf ("n vertices in graph: %d\n", out.noNodes);
     out.values = malloc (out.noNodes * sizeof (double));
     double numPaths = 0;
     double numPathsThrough = 0;
@@ -120,10 +128,11 @@ NodeValues betweennessCentrality (Graph g) {
 }
 
 NodeValues betweennessCentralityNormalised (Graph g) {
+    //printf ("Finding normalised betweenness Centrality\n");
     int n = numVerticies (g);
     NodeValues out;
     out.noNodes = n;
-    printf ("n vertices in graph: %d\n", out.noNodes);
+    //printf ("n vertices in graph: %d\n", out.noNodes);
     out.values = malloc (out.noNodes * sizeof (double));
     NodeValues betweenness = betweennessCentrality (g);
     for (Vertex v = 0; v < n; v++) {
@@ -135,15 +144,18 @@ NodeValues betweennessCentralityNormalised (Graph g) {
 
 
 void  showNodeValues(NodeValues n) {
-    printf ("Displaying NodeValues for %d nodes...\n", n.noNodes);
-    //printf ("\tVertex\t|   Value\n");
-    for (Vertex v = 0; v < n.noNodes; v++) {
+    //printf ("Displaying NodeValues for %d nodes...\n", n.noNodes);
+    /*for (Vertex v = 0; v < n.noNodes; v++) {
         printf ("%d: %f\n", v, n.values[v]);
     }
+    printf ("NodeValues displayed successfully\n");*/
     return;
 }
 void  freeNodeValues(NodeValues n) {
-    n.noNodes = 0;
+    printf ("Freeing node values...\n");
+    for (Vertex v = 0; v < n.noNodes; v++) {
+        printf ("%d: %f\n", v, n.values[v]);
+    }
     free (n.values);
     return;
 }

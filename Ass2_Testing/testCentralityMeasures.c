@@ -73,5 +73,6 @@ int main(int argc, char* argv[]){
 	} else {
 		printUsage();
 	}
+	printf ("Node values successfully freed\n");
 	freeGraph(g);
 }
