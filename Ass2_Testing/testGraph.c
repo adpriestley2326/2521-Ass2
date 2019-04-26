@@ -55,6 +55,8 @@ int main(int argc, char* argv[]){
 	printf("\n\n");
 	
 	//graphVis(g, DEFAULT);
+	
+	freeGraph (g); // Added by Adam
 }
 
 void check_removeEdge_adjacent(Graph g) {
