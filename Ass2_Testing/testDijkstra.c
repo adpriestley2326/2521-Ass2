@@ -99,9 +99,15 @@ int main(int argc, char* argv[]){
 	}
   Graph g = readGraph(argv[1]);
   int i;
+  
+  //printf("Graph has %d vertices\n", numVerticies(g));
+  
   for(i=0; i<numVerticies(g); i++) {
-    ShortestPaths paths = dijkstra(g,i);
-    displayShortestPathsStruct(paths);
-    freeShortestPaths(paths);
+	ShortestPaths paths = dijkstra(g,i);
+	showShortestPaths(paths);
+	freeShortestPaths(paths);
   }
+  //printf("Freed things in paths\n");
+  //freeGraph(g);
+  return 0;
 }

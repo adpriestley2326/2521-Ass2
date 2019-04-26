@@ -91,6 +91,7 @@ void  removeEdge (Graph g, Vertex src, Vertex dest) {
     return;
 }
 
+//RETURNS TRUE IF SRC HAS A PATH TO DEST 
 bool  adjacent (Graph g, Vertex src, Vertex dest) {
     assert (validV (g, src) && validV (g, dest));
     AdjList curr = g->edges[src];
@@ -102,7 +103,7 @@ bool  adjacent (Graph g, Vertex src, Vertex dest) {
     return false;
 }
 
-int  numVerticies (Graph g) {
+int numVerticies (Graph g) {
     assert (g != NULL);
     return g->nV;
 }

@@ -9,6 +9,11 @@ ItemPQ newItemPQ(int a, int b){
   p->key = a;
   p->value = b;
   
+
+  //free(p);
+  //printf("Key is %d\n",p->key);
+  //printf("Key is %d\n",p->value);
+
   return *p;
 }
 
@@ -26,7 +31,7 @@ int main(){
   addPQ(pq,newItemPQ(4,4));
   printf("addPQ: {5,3}\n");  
   addPQ(pq,newItemPQ(5,3));
-  
+
   ItemPQ v; 
   for(int i=0; i<5; i++){  
       v = dequeuePQ(pq);
@@ -49,6 +54,6 @@ int main(){
   }  
   
   printf("\n");
-  
+  freePQ(pq);
   return EXIT_SUCCESS;
 }
