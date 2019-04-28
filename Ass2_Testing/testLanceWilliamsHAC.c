@@ -23,7 +23,6 @@ void printClusters(Tree t, int depth){
 }
 
 Tree printDendrogram(Dendrogram dn, int depth){
-
 	// To avoid infinite looping, due to a possible  
 	// incorrect logic in the program being tested!
 	assert( depth < 200 );
@@ -61,9 +60,11 @@ int main(int argc, char* argv[]){
 	
 	Tree allTree = printDendrogram(dn, 1);
 	printClusters(allTree, 0);
-	
-	freeDendrogram(dn);
 
+	freeTree(allTree);	
+	freeDendrogram(dn);
+	freeGraph(g);
+  	return 0;
 }
 
 

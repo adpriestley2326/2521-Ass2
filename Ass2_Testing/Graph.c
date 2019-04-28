@@ -156,14 +156,13 @@ void  showGraph (Graph g) {
 void  freeGraph (Graph g) {
     assert (g != NULL);
     AdjList curr = NULL;
-    AdjList next = NULL;
+    AdjList temp;
     for (int v = 0; v < g->nV; v++) {
-        next = g->edges[v]->next;
         curr = g->edges[v];
-        while (next) {
-            free (curr);
-            curr = next;
-            next = next->next;
+        while (curr != NULL) {
+            temp = curr;
+            curr = curr->next;
+            free (temp);
         }
     }
     free (g->edges);

@@ -53,7 +53,7 @@ int main(int argc, char* argv[]){
 	check_outIncident(g);
 	
 	printf("\n\n");
-	
+	freeGraph(g);
 	//graphVis(g, DEFAULT);
 }
 
@@ -98,10 +98,18 @@ void check_outIncident(Graph g) {
 void check_inIncident(Graph g) {
 	printf("\n\n***** Check inIncident...\n");
 	int i = 0;
+	AdjList l1;
 	for (i=0;i<10;i++) {
 		printf("  %d : ",i);
-		AdjList l1 = inIncident(g,i);
+		l1 = inIncident(g,i);
 		printSortedAdjList( l1 );
 		printf("\n");
+		AdjList temp;
+	    while (l1 != NULL) {
+	        temp = l1;
+	        l1 = l1->next;
+	        free(temp);
+	    }
 	}
+
 }

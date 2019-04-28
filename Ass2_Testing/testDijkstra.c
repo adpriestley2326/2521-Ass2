@@ -69,6 +69,6 @@ int main(int argc, char* argv[]){
 	freeShortestPaths(paths);
   }
   //printf("Freed things in paths\n");
-  //freeGraph(g);
+  freeGraph(g);
   return 0;
 }
