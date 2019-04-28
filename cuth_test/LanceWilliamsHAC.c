@@ -28,7 +28,8 @@ static void merge_cluster (Dendrogram *cluster, int left_node, int right_node);
 
 static double **create_dist_array(Graph g);
 static void find_min_dist(double **dist, int *src, int *dest, int size);
-static float update_dist(double **dist, int left_cluster, int right_cluster,Graph g);
+static void update_dist_single(double **dist, int left_cluster, int right_cluster,int size);
+static void update_dist_complete(double **dist, int left_cluster, int right_cluster,int size);
 static void free_dist_array(double **dist, int size);
 
 static void showDendrogram(Dendrogram d);
@@ -46,6 +47,9 @@ static void showDendrogram(Dendrogram d);
 
 
 Dendrogram LanceWilliamsHAC(Graph g, int method) {
+	assert(g != NULL);
+	assert(method == 1 || method == 2);
+
 	Dendrogram *cluster = create_clusters(g);
 	double **dist = create_dist_array(g);
 	
@@ -55,7 +59,14 @@ Dendrogram LanceWilliamsHAC(Graph g, int method) {
 
 		find_min_dist(dist, &left_node, &right_node, numVerticies(g));
 		merge_cluster(cluster,left_node,right_node);		
-		update_dist(dist,left_node,right_node,g);
+		if (method == 1) {
+			update_dist_single(dist,left_node,right_node,numVerticies(g));
+		}
+		else {
+			update_dist_complete(dist,left_node,right_node,numVerticies(g));
+		}	
+
+		
 	}
 /*
 	for (int i = 0; i < numVerticies(g); i++) {
@@ -136,12 +147,13 @@ double **create_dist_array(Graph g) {
 	return dist;
 }
 
-static float update_dist(double **dist, int left_cluster, int right_cluster,Graph g) {
+static void update_dist_single(double **dist, int left_cluster, int right_cluster,int size) {
 	int counter = 0;
-	while(counter <  numVerticies(g)) {
+	while(counter <  size) {
 		if (dist[left_cluster][counter] != -1 && counter != right_cluster) {
 			float path_left = dist[left_cluster][counter];
 			float path_right = dist[right_cluster][counter];
+			
 			if (path_left < path_right) {
 				dist[left_cluster][counter] = path_left;
 				dist[counter][left_cluster] = path_left;
@@ -153,13 +165,39 @@ static float update_dist(double **dist, int left_cluster, int right_cluster,Grap
 			dist[right_cluster][counter] = -1;
 			dist[counter][right_cluster] = -1;
 		}
+		
 		dist[left_cluster][right_cluster] = -1;
 		dist[right_cluster][left_cluster] = -1;
 		counter++;
 	}
-
-
 }
+
+static void update_dist_complete(double **dist, int left_cluster, int right_cluster,int size) {
+	int counter = 0;
+	while(counter <  size) {
+		if (dist[left_cluster][counter] != -1 && counter != right_cluster) {
+			float path_left = dist[left_cluster][counter];
+			float path_right = dist[right_cluster][counter];
+			
+			if (path_left > path_right) {
+				dist[left_cluster][counter] = path_left;
+				dist[counter][left_cluster] = path_left;
+			}
+			else {
+				dist[left_cluster][counter] = path_right;
+				dist[counter][left_cluster] = path_right;
+			}
+			
+			dist[right_cluster][counter] = -1;
+			dist[counter][right_cluster] = -1;
+		}
+		
+		dist[left_cluster][right_cluster] = -1;
+		dist[right_cluster][left_cluster] = -1;
+		counter++;
+	}
+}
+
 
 static Dendrogram *create_clusters(Graph g) {
 	Dendrogram *cluster = malloc(sizeof(Dendrogram) * numVerticies(g));
