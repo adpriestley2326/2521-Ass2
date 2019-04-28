@@ -54,6 +54,8 @@ int main(int argc, char* argv[]){
 	
 	printf("\n\n");
 	
+	freeGraph(g);
+	
 	//graphVis(g, DEFAULT);
 }
 
@@ -103,5 +105,10 @@ void check_inIncident(Graph g) {
 		AdjList l1 = inIncident(g,i);
 		printSortedAdjList( l1 );
 		printf("\n");
+		while(l1 != NULL) {
+			AdjList next = l1->next;
+			free(l1);
+			l1 = next;
+		}
 	}
 }
