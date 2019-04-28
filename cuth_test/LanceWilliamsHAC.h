@@ -25,8 +25,8 @@ typedef struct DNode {
  */
 Dendrogram LanceWilliamsHAC(Graph g, int method);
 
-
 void freeDendrogram(Dendrogram d);
+
 
 
 

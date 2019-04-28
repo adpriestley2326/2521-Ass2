@@ -32,7 +32,7 @@ LanceWilliamsHAC.o : LanceWilliamsHAC.c Graph.o  BSTree.o
 	$(CC)  $(CFLAGS) -c  -o LanceWilliamsHAC.o LanceWilliamsHAC.c    -lm
 
 testLanceWilliamsHAC : testLanceWilliamsHAC.c Graph.h  Graph.o LanceWilliamsHAC.o BSTree.o GraphRead.o
-	$(CC)   -o  testLanceWilliamsHAC testLanceWilliamsHAC.c Graph.o BSTree.o GraphRead.o LanceWilliamsHAC.o  -lm
+	$(CC)   -o  testLanceWilliamsHAC testLanceWilliamsHAC.c Graph.o BSTree.o GraphRead.o LanceWilliamsHAC.o -lm
 
 clean :
 	rm -f *.o testCentralityMeasures testDijkstra testGraph testPQ  testLanceWilliamsHAC GraphLib.a
