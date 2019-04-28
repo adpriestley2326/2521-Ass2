@@ -12,8 +12,6 @@ typedef PredNode *PredNode_pointer;
 static ItemPQ newItemPQ(int a, int b);
 static ShortestPaths init_shortest_path(Graph g,Vertex v);
 static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ queue);
-//static bool is_existing_pred(ShortestPaths data, Vertex v, Vertex alt);
-//static void insert_in_order(PredNode *new, ShortestPaths data, Vertex dest);
 
 
 static ItemPQ newItemPQ(int a, int b){
@@ -128,49 +126,6 @@ static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ qu
 	}
 	return;
 }
-
-
-/*This function inserts nodes in the pred list based on descending? order
-static void insert_in_order(PredNode *new, ShortestPaths data, Vertex dest) {
-	PredNode *curr = data.pred[dest];
-
-	if (new->v > curr->v) {
-		PredNode *temp = curr;
-		data.pred[dest] = new;
-		new->next = temp;
-		return;
-	} 
-	
-	PredNode *prev = curr;
-	curr =curr->next;
-	while (curr!= NULL) {
-		if (new->v < curr->v) {
-			prev->next = new;
-			new->next = curr;
-			return;
-		}
-		prev = curr;
-		curr = curr->next;
-	}
-	prev->next = new;
-	return;
-}
-*/
-
-//Function to check if the pred node already exists 
-/*
-static bool is_existing_pred(ShortestPaths data, Vertex v, Vertex alt){
-	PredNode *curr = data.pred[v];
-	while(curr != NULL) {
-		if (curr->v == alt) {
-			return true;
-		}
-		curr = curr->next;
-	}
-	return false;
-}
-*/
-
 
 //Copied from the Test Example(Does it well enough)
 void showShortestPaths(ShortestPaths paths){
