@@ -155,6 +155,7 @@ void  showGraph (Graph g) {
 
 void  freeGraph (Graph g) {
     assert (g != NULL);
+
     AdjList curr = NULL;
     AdjList temp;
     for (int v = 0; v < g->nV; v++) {
