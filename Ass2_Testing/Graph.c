@@ -1,5 +1,6 @@
 // Assignment 2 Task 1 - Graph ADT
 // Last modified 11/04/19
+// Final Version
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,7 +40,6 @@ Graph newGraph (int noNodes) {
 }
 
 // Inserts an edge into the relevant adjacency list
-// Note: the commented out sections result in sorted adjacency lists (ascending)
 void  insertEdge (Graph g, Vertex src, Vertex dest, int weight) {
     assert (validV (g, src) && validV (g, dest));
     
@@ -48,23 +48,11 @@ void  insertEdge (Graph g, Vertex src, Vertex dest, int weight) {
         g->edges[src] = new;
     else {
         AdjList curr = g->edges[src];
-        /*if (dest < curr->w) { // If new edge should be first
-            g->edges[src] = new;
-            new->next = curr;
-            g->nE++;
-            return;
-        }*/
         while (curr->next != NULL) {
             if (curr->w == dest) { //Node already in graph
                 free (new);
                 return;
             }
-            /*if (dest < curr->next->w) {
-                new->next = curr->next;
-                curr->next = new;
-                g->nE++;
-                return;
-            }*/
             curr = curr->next;
         }
         curr->next = new;
@@ -91,7 +79,6 @@ void  removeEdge (Graph g, Vertex src, Vertex dest) {
     return;
 }
 
-//RETURNS TRUE IF SRC HAS A PATH TO DEST 
 bool  adjacent (Graph g, Vertex src, Vertex dest) {
     assert (validV (g, src) && validV (g, dest));
     AdjList curr = g->edges[src];
@@ -110,10 +97,10 @@ int numVerticies (Graph g) {
 
 AdjList outIncident (Graph g, Vertex v) {
     assert (validV (g, v));
-    //printf ("\tGenerating outIncident...\n");
     return g->edges[v];
 }
 
+// Note - the returned INcident needs to be freed when inIncident() is used
 AdjList inIncident (Graph g, Vertex v) {
     assert (validV (g, v));
     AdjList INcident, currG, currI;

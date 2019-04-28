@@ -1,4 +1,5 @@
 // Assignment 2 Task 3 - Centrality measures for social network analysis
+// Final Version
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -94,24 +95,25 @@ NodeValues closenessCentrality(Graph g) {
     return out;
 }
 
-static int nShortestPaths (Graph g, Vertex s, Vertex t) {
-    if (s == t) return 1;
+static int nShortestPaths (Graph g, Vertex src, Vertex dest) {
+    if (src == dest) return 1;
     int nsp = 0; //number of shortest paths from s to t
-    ShortestPaths sPaths = dijkstra (g, s);
-    for (PredNode *currN = sPaths.pred[t]; currN; currN = currN->next) {
-        nsp += nShortestPaths (g, s, currN->v);
+    ShortestPaths sPaths = dijkstra (g, src);
+    for (PredNode *currN = sPaths.pred[dest]; currN; currN = currN->next) {
+        nsp += nShortestPaths (g, src, currN->v);
     }
     freeShortestPaths (sPaths);
     return nsp;
 }
 
-static int nPathsThrough (Graph g, Vertex s, Vertex t, Vertex v) {
-    if (t == v) return nShortestPaths (g, s, t);
-    if (t == s) return 0;
-    ShortestPaths sPaths = dijkstra (g, s);
+// Returns # of shortest paths from src to dest that pass through v
+static int nPathsThrough (Graph g, Vertex src, Vertex dest, Vertex v) {
+    if (dest == v) return nShortestPaths (g, src, dest);
+    if (dest == src) return 0;
+    ShortestPaths sPaths = dijkstra (g, src);
     int nPaths = 0;
-    for (PredNode *curr = sPaths.pred[t]; curr; curr = curr->next) {
-        nPaths += nPathsThrough (g, s, curr->v, v);
+    for (PredNode *curr = sPaths.pred[dest]; curr; curr = curr->next) {
+        nPaths += nPathsThrough (g, src, curr->v, v);
     }
     freeShortestPaths (sPaths);
     return nPaths;
@@ -141,7 +143,7 @@ NodeValues betweennessCentralityNormalised (Graph g) {
     NodeValues out;
     out.noNodes = n;
     out.values = malloc (out.noNodes * sizeof (double));
-    NodeValues betweenness = betweennessCentrality (g);
+    NodeValues betweenness = betweennessCentrality (g); // un-normalised
     for (Vertex v = 0; v < n; v++) {
         if (n < 3)
             out.values[v] = 0;
