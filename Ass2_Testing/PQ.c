@@ -22,7 +22,7 @@ struct PQRep {
 static PQNode create_new_PQnode(ItemPQ node);
 static int deleteNode (PQ queue, int key);
 
-
+//Create Empty PQ List Structure 
 PQ newPQ() {
 	PQ new = malloc(sizeof(*new));
 	if (new == NULL) {
@@ -35,6 +35,7 @@ PQ newPQ() {
 	return new;
 }
 
+//Create a new PQ Node with value and key 
 static PQNode create_new_PQnode(ItemPQ node) {
 	PQNode new = malloc(sizeof(*new));
 	if (new == NULL) {
@@ -49,13 +50,11 @@ static PQNode create_new_PQnode(ItemPQ node) {
 	return new;
 }
 
-
+//Insertion into PQ Node 
 void addPQ(PQ queue, ItemPQ node) {
 	assert(queue != NULL);
 	
 	PQNode new = create_new_PQnode(node);
-	//printf("A new key has has been added with key %d\n",new->data.key);
-	//printf("A new node has been added with value %d\n",new->data.value);
 
 	//Empty List
 	if (queue->nitems == 0) {
@@ -103,8 +102,6 @@ ItemPQ dequeuePQ(PQ queue) {
 
 	PQNode temp = queue->head;
 	ItemPQ result = queue->head->data;
-	//printf("Data is %d\n",result.key);
-	//printf("Data is %d\n",result.value);
 
 	queue->head = queue->head->next;
 	queue->nitems--;
@@ -127,6 +124,7 @@ void showPQ(PQ queue) {
 	}
 }
 
+//Delete old node via key and inesrt new node in
 void updatePQ(PQ queue, ItemPQ node) {
 	int found = deleteNode(queue,node.key);
 	if (found == 1) {
