@@ -20,9 +20,9 @@ static double AdjListDegree (AdjList l) {
 static void freeAdjList (AdjList l) {
     AdjList next = NULL;
     while (l) {
-            next = l->next;
-            free (l);
-            l = next;
+        next = l->next;
+        free (l);
+        l = next;
     }
     return;
 }
