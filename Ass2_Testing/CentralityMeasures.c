@@ -17,11 +17,11 @@ static double AdjListDegree (AdjList l) {
 } 
 
 static void freeAdjList (AdjList l) {
-    AdjList next = NULL;
-    while (l) {
-            next = l->next;
-            free (l);
-            l = next;
+    AdjList temp;
+    while (l != NULL) {
+        temp = l;
+        l = l->next;
+        free (temp);
     }
     return;
 }
