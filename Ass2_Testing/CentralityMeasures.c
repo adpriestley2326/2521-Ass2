@@ -16,10 +16,19 @@ static double AdjListDegree (AdjList l) {
     return counter;
 } 
 
+static void freeAdjList (AdjList l) {
+    AdjList next = NULL;
+    while (l) {
+            next = l->next;
+            free (l);
+            l = next;
+    }
+    return;
+}
+
 NodeValues outDegreeCentrality(Graph g) {
     NodeValues outD;
     outD.noNodes = numVerticies (g);
-    //printf ("n vertices in graph: %d\n", outD.noNodes);
     outD.values = malloc (outD.noNodes * sizeof (double));
     AdjList outConns = NULL;
     for (int i = 0; i < outD.noNodes; i++) {
@@ -34,11 +43,10 @@ NodeValues inDegreeCentrality(Graph g) {
     inD.noNodes = numVerticies (g);
     inD.values = malloc (inD.noNodes * sizeof (double));
     AdjList inConns = NULL;
-    //printf ("Centrality found for nodes: ");
     for (int i = 0; i < inD.noNodes; i++) {
         inConns = inIncident (g, i);
         inD.values[i] = AdjListDegree (inConns);
-        //printf ("%d ", i);
+        freeAdjList (inConns);
     }
     return inD;
 }
@@ -53,6 +61,7 @@ NodeValues degreeCentrality(Graph g) { // for undirected graph
         outConns = outIncident (g, i);
         inConns = inIncident (g, i);
         degrees.values[i] = AdjListDegree (outConns) + AdjListDegree (inConns);
+        freeAdjList (inConns);
     }
     return degrees;
 }
@@ -80,6 +89,7 @@ NodeValues closenessCentrality(Graph g) {
         // Apply formula from spec -> out.values[u]
         if (n == 1) out.values[u] = 0;
         else out.values[u] = (n-1) / (N-1) * (n-1) / pathSum;
+        freeShortestPaths (uPaths);
     }
     return out;
 }
@@ -91,6 +101,7 @@ static int nShortestPaths (Graph g, Vertex s, Vertex t) {
     for (PredNode *currN = sPaths.pred[t]; currN; currN = currN->next) {
         nsp += nShortestPaths (g, s, currN->v);
     }
+    freeShortestPaths (sPaths);
     return nsp;
 }
 
@@ -102,6 +113,7 @@ static int nPathsThrough (Graph g, Vertex s, Vertex t, Vertex v) {
     for (PredNode *curr = sPaths.pred[t]; curr; curr = curr->next) {
         nPaths += nPathsThrough (g, s, curr->v, v);
     }
+    freeShortestPaths (sPaths);
     return nPaths;
 }
 
@@ -112,19 +124,14 @@ NodeValues betweennessCentrality (Graph g) {
     double numPaths = 0;
     double numPathsThrough = 0;
     for (Vertex s = 0; s < out.noNodes; s++) {
-        //printf ("\nAnalysing routes from %d to...\n", s);
         for (Vertex t = 0; t < out.noNodes; t++) {
-            //printf ("node %d, through: \n  ", t);
             numPaths = (double) nShortestPaths (g, s, t);
             for (Vertex v = 0; v < out.noNodes; v++) {
-                //printf ("%d ", v);
                 if (v == s || v == t || numPaths == 0) continue;
                 numPathsThrough = (double) nPathsThrough (g, s, t, v);
                 out.values[v] += numPathsThrough / numPaths;
             }
-            //printf ("\n");
         }
-        //printf ("\n... analysed\n");
     }
     return out;
 }
@@ -133,7 +140,6 @@ NodeValues betweennessCentralityNormalised (Graph g) {
     int n = numVerticies (g);
     NodeValues out;
     out.noNodes = n;
-    //printf ("n vertices in graph: %d\n", out.noNodes);
     out.values = malloc (out.noNodes * sizeof (double));
     NodeValues betweenness = betweennessCentrality (g);
     for (Vertex v = 0; v < n; v++) {
