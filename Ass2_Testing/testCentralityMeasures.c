@@ -45,7 +45,7 @@ int main(int argc, char* argv[]){
 	Graph g = readGraph(argv[1]);
 	//printf("HASN'T BEEN IMPLEMENTED\n");
 	if (argv[2][0] == 'd' && argv[2][1] == '\0') {
-  	NodeValues val = degreeCentrality(g);
+	NodeValues val = degreeCentrality(g);
   	showNodeValues(val);
   	freeNodeValues(val);
 	} else if (argv[2][0] == 'd' && argv[2][1] == 'i') {
@@ -73,6 +73,5 @@ int main(int argc, char* argv[]){
 	} else {
 		printUsage();
 	}
-	printf ("Node values successfully freed\n");
 	freeGraph(g);
 }

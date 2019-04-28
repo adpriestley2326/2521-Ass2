@@ -91,6 +91,7 @@ void  removeEdge (Graph g, Vertex src, Vertex dest) {
     return;
 }
 
+//RETURNS TRUE IF SRC HAS A PATH TO DEST 
 bool  adjacent (Graph g, Vertex src, Vertex dest) {
     assert (validV (g, src) && validV (g, dest));
     AdjList curr = g->edges[src];
@@ -154,15 +155,18 @@ void  showGraph (Graph g) {
 
 void  freeGraph (Graph g) {
     assert (g != NULL);
+
     AdjList curr = NULL;
     AdjList next = NULL;
+
     for (int v = 0; v < g->nV; v++) {
-        next = g->edges[v]->next;
+        //next = g->edges[v]->next;
         curr = g->edges[v];
-        while (next) {
+        while (curr) {
+            next = curr->next;
             free (curr);
             curr = next;
-            next = next->next;
+            //next = next->next;
         }
     }
     free (g->edges);
