@@ -13,7 +13,7 @@ static ItemPQ newItemPQ(int a, int b);
 static ShortestPaths init_shortest_path(Graph g,Vertex v);
 static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ queue);
 
-
+//Function to create ItemPQ Array
 static ItemPQ newItemPQ(int a, int b){
   ItemPQ p;
   p.key = a;
@@ -28,12 +28,15 @@ static ShortestPaths init_shortest_path(Graph g,Vertex v) {
 	assert(g != NULL);
 	int num_vertices = numVerticies(g);
 	
+	//Creating distance array and setting all values to be infinity except
+	//source, which is set to be 0
 	int *dist = malloc(sizeof(int) * num_vertices);
 	for (int counter = 0;counter < num_vertices;counter++) {
 		dist[counter] = INFINITY;
 	}
 	dist[v] = 0;
 
+    //Creating array of linked lists for Pred
 	PredNode **pred = malloc(sizeof(PredNode_pointer) * num_vertices);
 	for (int counter = 0; counter < num_vertices;counter++) {
 		pred[counter] = NULL;
@@ -75,7 +78,7 @@ ShortestPaths dijkstra(Graph g, Vertex v) {
 		}
 	}
 
-
+    //Set all distances of INFINITY to be 0 
 	for (int counter = 0; counter < num_vertices; counter++) {
 		if (data.dist[counter] == INFINITY) {
 			data.dist[counter] = 0;
@@ -87,9 +90,9 @@ ShortestPaths dijkstra(Graph g, Vertex v) {
 }
 
 static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ queue) {
-	//printf("Distance to dest via alt is %d + %d\n",data.dist[alt],weight);
-	//printf("Direct distance to dest is %d\n",data.dist[dest]);
 	PredNode *curr = data.pred[dest];
+	
+	//If a shorter path is found
 	if(data.dist[alt] + weight < data.dist[dest]) {
 		PredNode *new_node = malloc(sizeof(*new_node));
 		new_node->v= alt;
@@ -102,14 +105,13 @@ static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ qu
 			curr = curr->next;
 			free(temp);
 		}
+		//Updating distances and PQ items
 		data.pred[dest] = new_node;
 		data.dist[dest] = data.dist[alt] + weight;
 		updatePQ(queue,newItemPQ(dest,data.dist[alt] + weight));
 	}
 	
 	//Case where there is an alternative path of the same minimal length to a node 
-	//Note that there is an additional condition which stops multiple instances
-	//of the same predecessor node
 	else if (data.dist[dest] == data.dist[alt] + weight) {
 		
 		PredNode *new_node = malloc(sizeof(*new_node));
@@ -117,7 +119,6 @@ static void relax(Vertex alt, Vertex dest, int weight, ShortestPaths data, PQ qu
 		new_node->next = NULL; 
 
 		//printf("Appending pred onto list\n");
-		//insert_in_order(new_node,data,dest);
 		while(curr->next != NULL) {
 			curr = curr->next;
 		}
@@ -155,7 +156,6 @@ void showShortestPaths(ShortestPaths paths){
 void freeShortestPaths(ShortestPaths paths) {
 	//printf("Freeing distance array\n");
 	free(paths.dist);
-	//printf("Freed distance array\n");
 
 	for (int counter = 0; counter < paths.noNodes; counter++) {
 		PredNode *curr = paths.pred[counter];
